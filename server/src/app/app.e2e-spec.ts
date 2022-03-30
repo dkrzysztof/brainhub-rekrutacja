@@ -3,7 +3,7 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from 'src/app/app.module';
 import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
-import { TESTING_DATABASE } from './db';
+import { TESTING_DATABASE } from '../../test/db';
 import { AppController } from 'src/app/app.controller';
 import { AppService } from 'src/app/app.service';
 
@@ -16,12 +16,7 @@ describe('AppController (e2e)', () => {
 				AppService,
 				{
 					provide: getRepositoryToken(Event),
-					useValue: {
-						// find: jest
-						// 	.fn()
-						// 	.mockResolvedValue(() => [createMockedEvent(0)]),
-						// save: jest.fn().mockResolvedValue(createMockedEvent(0)),
-					},
+					useValue: {},
 				},
 			],
 			controllers: [AppController],
@@ -35,6 +30,7 @@ describe('AppController (e2e)', () => {
 		return request(app.getHttpServer())
 			.get('/')
 			.expect(200)
+			.expect('Content-Type', /text/)
 			.expect('Hello Brainhub!');
 	});
 });

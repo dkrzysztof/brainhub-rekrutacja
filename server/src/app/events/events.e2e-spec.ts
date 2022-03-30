@@ -1,13 +1,14 @@
 import { Test } from '@nestjs/testing';
 import { EventsService } from './events.service';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
 import { EventsModule } from './events.module';
 import { Event } from 'src/models/event.entity';
 import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { EventsController } from './events.controller';
 import { CreateEventDto } from './dto/create-event.dto';
+import assert from 'assert';
+import { response } from 'express';
 
 const createMockedEvent = (id: number): Event => ({
 	id,
@@ -52,10 +53,18 @@ describe('EventsController', () => {
 			.compile();
 
 		app = moduleRef.createNestApplication();
+		app.useGlobalPipes(
+			new ValidationPipe({
+				forbidUnknownValues: true,
+				whitelist: true,
+				transform: true,
+				forbidNonWhitelisted: true,
+			}),
+		);
 		await app.init();
 	});
 
-	it('/ (GET: get all events)', async () => {
+	it('/api/events (GET: should get all events)', async () => {
 		let result = await eventsService.getAllEvents();
 
 		// Zastosuj transfomacje do wyjsciowego wyniku
@@ -66,17 +75,132 @@ describe('EventsController', () => {
 
 		return request(app.getHttpServer())
 			.get('/api/events')
-			.expect('Content-Type', 'application/json; charset=utf-8')
+			.expect('Content-Type', /json/)
 			.expect(200)
 			.expect(result.map(mapEndResult));
 	});
 
-	it('/ (POST: create new event succesfully)', async () => {
+	it('/api/events (POST: should create new event succesfully)', async () => {
 		const createEventDto = createMockedCreateEventDto();
 
 		return request(app.getHttpServer())
 			.post('/api/events')
 			.send(createEventDto)
 			.expect(204);
+	});
+
+	it('/api/events (POST: should throw Bad Request on incorrect email)', async () => {
+		const createEventDto = createMockedCreateEventDto();
+
+		createEventDto.email = 'test';
+
+		const response = await request(app.getHttpServer())
+			.post('/api/events')
+			.set('Accept', 'application/json')
+			.send(createEventDto)
+			.expect(400)
+			.expect('Content-Type', /json/);
+
+		expect(response.body.message[0]).toBe('email must be an email');
+		expect(response.body.error).toBe('Bad Request');
+		expect(response.body.statusCode).toBe(400);
+	});
+
+	it('/api/events (POST: should throw Bad Request on empty body)', async () => {
+		const response = await request(app.getHttpServer())
+			.post('/api/events')
+			.set('Accept', 'application/json')
+			.send({})
+			.expect(400)
+			.expect('Content-Type', /json/);
+
+		const expectedResponse = [
+			'firstname should not be empty',
+			'firstname must be a string',
+			'lastname should not be empty',
+			'lastname must be a string',
+			'email should not be empty',
+			'email must be an email',
+			'date should not be empty',
+			'date must be a valid ISO 8601 date string',
+			'date must include time after date as THH:MM:SSZ',
+		];
+
+		expect(response.body.message.sort()).toStrictEqual(
+			expectedResponse.sort(),
+		);
+		expect(response.body.error).toBe('Bad Request');
+		expect(response.body.statusCode).toBe(400);
+	});
+
+	it('/api/events (POST: should throw Bad Request on wrong data types)', async () => {
+		const createEventDto = createMockedCreateEventDto() as any;
+
+		createEventDto.firstname = 1;
+		createEventDto.lastname = 2;
+		createEventDto.date = '2022.03.30T12:00:00Z';
+
+		const response = await request(app.getHttpServer())
+			.post('/api/events')
+			.set('Accept', 'application/json')
+			.send(createEventDto)
+			.expect(400)
+			.expect('Content-Type', /json/);
+
+		const expectedResponse = [
+			'firstname must be a string',
+			'lastname must be a string',
+			'date must be a valid ISO 8601 date string',
+		];
+
+		expect(response.body.message.sort()).toStrictEqual(
+			expectedResponse.sort(),
+		);
+		expect(response.body.error).toBe('Bad Request');
+		expect(response.body.statusCode).toBe(400);
+	});
+
+	it('/api/events (POST: should throw Bad Request on wrong date format)', async () => {
+		const createEventDto = createMockedCreateEventDto() as any;
+
+		createEventDto.date = '30/03/2022T12:00:00Z';
+
+		const response = await request(app.getHttpServer())
+			.post('/api/events')
+			.set('Accept', 'application/json')
+			.send(createEventDto)
+			.expect(400)
+			.expect('Content-Type', /json/);
+
+		const expectedResponse = ['date must be a valid ISO 8601 date string'];
+
+		expect(response.body.message.sort()).toStrictEqual(
+			expectedResponse.sort(),
+		);
+		expect(response.body.error).toBe('Bad Request');
+		expect(response.body.statusCode).toBe(400);
+	});
+
+	it('/api/events (POST: should throw Bad Request on empty time in date)', async () => {
+		const createEventDto = createMockedCreateEventDto() as any;
+
+		createEventDto.date = '2022-02-01';
+
+		const response = await request(app.getHttpServer())
+			.post('/api/events')
+			.set('Accept', 'application/json')
+			.send(createEventDto)
+			.expect(400)
+			.expect('Content-Type', /json/);
+
+		const expectedResponse = [
+			'date must include time after date as THH:MM:SSZ',
+		];
+
+		expect(response.body.message.sort()).toStrictEqual(
+			expectedResponse.sort(),
+		);
+		expect(response.body.error).toBe('Bad Request');
+		expect(response.body.statusCode).toBe(400);
 	});
 });
