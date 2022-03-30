@@ -80,4 +80,20 @@ describe('Brainhub Recrution task Main Form ', () => {
 		cy.get('button[type=submit]').click();
 		cy.get('div.ant-form-item-explain-error[role=alert]').should('not.exist');
 	});
+
+	it('should not allow incorrect email', () => {
+		cy.get('input#email').should('be.visible');
+		cy.get('input#email').type('jkowalski@email.com');
+		cy.get('div.ant-form-item-explain-error[role=alert]').should('not.exist');
+
+		const testEmailValue = (value) => {
+			cy.get('input#email').clear();
+			cy.get('input#email').type(value);
+			cy.get('div.ant-form-item-explain-error[role=alert]').should('have.length', 1);
+			cy.get('div.ant-form-item-explain-error[role=alert]').contains('Email is not a valid email!');
+		};
+
+		const incorrectEmails = ['jkowalski', 'jkowalski@', 'jkowalski@mail', 'jkowalski@mail.', 'jkowalski@mail,com'];
+		incorrectEmails.forEach(testEmailValue);
+	});
 });
