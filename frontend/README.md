@@ -11,7 +11,7 @@ W celu uruchomienia aplikacji należy wywołać komendę `npm start`
 
 ## Testowanie aplikacji
 
-### testy rtl
+### Testy rtl
 
 Aby uruchomić testy z użyciem biblioteki `react-testing-library` należy wywołać komendę `npm run test`
 
