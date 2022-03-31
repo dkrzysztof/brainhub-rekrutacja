@@ -1,9 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from 'src/app/app.module';
-import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
-import { TESTING_DATABASE } from '../../test/db';
+import { getRepositoryToken } from '@nestjs/typeorm';
 import { AppController } from 'src/app/app.controller';
 import { AppService } from 'src/app/app.service';
 

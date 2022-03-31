@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TESTING_DATABASE } from 'test/db';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -10,7 +9,6 @@ describe('AppController', () => {
 
 	beforeEach(async () => {
 		app = await Test.createTestingModule({
-			imports: [TypeOrmModule.forRoot(TESTING_DATABASE)],
 			controllers: [AppController],
 			providers: [AppService],
 		}).compile();
@@ -18,7 +16,7 @@ describe('AppController', () => {
 	});
 
 	describe('root', () => {
-		it('should return "Hello World!"', () => {
+		it('should return "Hello Brainhub!"', () => {
 			expect(appController.getHello()).toBe('Hello Brainhub!');
 		});
 	});

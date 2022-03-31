@@ -2,13 +2,10 @@ import { Test } from '@nestjs/testing';
 import { EventsService } from './events.service';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
-import { EventsModule } from './events.module';
 import { Event } from 'src/models/event.entity';
-import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
+import { getRepositoryToken } from '@nestjs/typeorm';
 import { EventsController } from './events.controller';
 import { CreateEventDto } from './dto/create-event.dto';
-import assert from 'assert';
-import { response } from 'express';
 
 const createMockedEvent = (id: number): Event => ({
 	id,

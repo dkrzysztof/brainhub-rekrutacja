@@ -1,11 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
+import { getRepositoryToken } from '@nestjs/typeorm';
 import { Event } from 'src/models/event.entity';
 import { EventsService } from './events.service';
 import { CreateEventDto } from './dto/create-event.dto';
 import { plainToInstance } from 'class-transformer';
 import { Repository } from 'typeorm';
-import { TESTING_DATABASE } from 'test/db';
 
 const createMockedEvent = (id: number): Event => ({
 	id,
