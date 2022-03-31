@@ -17,6 +17,6 @@ Aby uruchomić testy z użyciem biblioteki `react-testing-library` należy wywo�
 
 ### E2E tests (Cypress)
 
-W celu uruchomienia testów e2e (Cypress) należy wowołać komendę `npm run e2e-test`
+W celu uruchomienia testów e2e (Cypress) należy wowołać komendę `npm run test:e2e`
 
 Cypress otworzy nowe okno, w którym trzeba kliknąć test `create-event.spec.js`.
