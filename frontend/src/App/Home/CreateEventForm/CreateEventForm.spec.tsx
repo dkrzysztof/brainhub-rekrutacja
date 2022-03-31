@@ -141,39 +141,4 @@ describe('CreateEventForm', () => {
 
 		expect(handleFinish).not.toHaveBeenCalled();
 	});
-
-	it('should not fire handler on empty email', async () => {
-		// wyciszenie ostrzezeń z konsoli
-		// gdy komponent Form będzie ostrzegał o nie poprawnym formacie danych
-		console.warn = jest.fn();
-
-		const { form, inputDate, inputEmail, inputFirstname, inputLastname, buttonSubmit } = setup({
-			onFinish: handleFinish
-		});
-
-		const inputs: HTMLInputElement[] = [inputFirstname, inputLastname, inputDate, inputEmail];
-		const testEmptyConditionOnInput = async (input: HTMLInputElement, arr: HTMLInputElement[]) => {
-			await act(async () => {
-				form.setFieldsValue(createEventMock);
-				changeTextInputValue(input, '');
-				fireEvent.click(buttonSubmit);
-			});
-			console.log(input.id);
-
-			const testNonEmptyValueOnInput = (input_2: HTMLInputElement) => {
-				if (input_2.id != input.id) expect(input_2.value).not.toBe('');
-			};
-			for (let i = 0; i < arr.length; i++) {
-				testNonEmptyValueOnInput(arr[i]);
-			}
-
-			expect(input.value).toBe('');
-			expect(handleFinish).not.toHaveBeenCalled();
-		};
-
-		for (let i = 0; i < inputs.length; i++) {
-			const input: HTMLInputElement = inputs[i];
-			await testEmptyConditionOnInput(input, inputs);
-		}
-	});
 });
