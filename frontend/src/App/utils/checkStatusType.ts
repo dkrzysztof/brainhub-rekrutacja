@@ -1,6 +1,6 @@
 import { StatusType } from './interfaces/StatusTypes';
 
-export const isInitial = (status: StatusType) => status === StatusType.INITIAL;
-export const isLoading = (status: StatusType) => status === StatusType.LOADING;
-export const isSuccess = (status: StatusType) => status === StatusType.SUCCESS;
-export const isFailed = (status: StatusType) => status === StatusType.FAILED;
+export const isStatusInitial = (status: StatusType) => status === StatusType.INITIAL;
+export const isStatusLoading = (status: StatusType) => status === StatusType.LOADING;
+export const isStatusSuccess = (status: StatusType) => status === StatusType.SUCCESS;
+export const isStatusFailed = (status: StatusType) => status === StatusType.FAILED;

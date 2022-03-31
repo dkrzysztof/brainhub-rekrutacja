@@ -1,9 +1,23 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
+import * as ReactRedux from 'react-redux';
 import App from './App';
+import { StatusType } from './utils/interfaces/StatusTypes';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+beforeAll(() => cleanup());
+jest.mock('react-redux', () => ({
+	useDispatch: jest.fn(),
+	useSelector: jest.fn()
+}));
+
+describe('App', () => {
+	beforeEach(() => {
+		(ReactRedux.useSelector as jest.Mock).mockImplementation(() => StatusType.SUCCESS);
+	});
+
+	it('renders Brainhub logo', () => {
+		render(<App />);
+		const headerText = screen.getByText(/Brainhub/i);
+		expect(headerText).toBeInTheDocument();
+	});
 });

@@ -12,14 +12,6 @@ const responseBodyAxios = (response: AxiosResponse) => {
 	return response.data;
 };
 
-const responseBodyFetch = (response: Response) => {
-	const contentType = response.headers.get('content-type');
-	if (contentType && contentType.indexOf('application/json') !== -1) {
-		return response.json();
-	}
-	return null;
-};
-
 export const defaultHeaders = {
 	Accept: 'application/json, text/plain, */*',
 	'Content-Type': 'application/json;charset=utf-8'

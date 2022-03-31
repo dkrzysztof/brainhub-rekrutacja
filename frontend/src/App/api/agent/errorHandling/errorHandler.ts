@@ -1,7 +1,6 @@
 import { AxiosError } from 'axios';
 import { notification } from 'antd';
 import axios from 'axios';
-import store from 'App/state/store';
 
 export const errorHandler = async (error: AxiosError) => {
 	const { status } = error.response || { status: null, data: null };
@@ -11,7 +10,6 @@ export const errorHandler = async (error: AxiosError) => {
 	switch (status) {
 		case 400:
 			return handleBadRequest(error);
-			break;
 		case 404:
 			return handleNotFound(error);
 		case 500:
