@@ -7,7 +7,7 @@ import { RootState } from 'App/state/root.reducer';
 import { isStatusLoading } from 'App/utils/checkStatusType';
 
 export interface HomePageProps {}
-const HomePage: React.FC<HomePageProps> = ({}) => {
+const HomePage: React.FC<HomePageProps> = () => {
 	const dispatch = useDispatch();
 	const [form] = Form.useForm();
 

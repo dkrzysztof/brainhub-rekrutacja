@@ -28,7 +28,6 @@ const eventsSlice = createSlice({
 		},
 		createEventFailure: (state: EventsState) => {
 			state.status.createEvent = StatusType.FAILED;
-			sendErrorNotification('The server could not resolve request!');
 		}
 	}
 });

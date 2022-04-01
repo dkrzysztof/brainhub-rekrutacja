@@ -30,8 +30,9 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({ form, onFinish, isLoa
 			<Form.Item label='Email' name='email' rules={emailFieldRules}>
 				<Input />
 			</Form.Item>
-			<Form.Item label='Event date' name='date' rules={dateFieldRules}>
+			<Form.Item label='Event date' name='date' rules={dateFieldRules} data-testid='date-picker'>
 				<DatePicker
+					data-testid='event-date'
 					format='YYYY-MM-DD HH:mm:ss'
 					placeholder='Event date'
 					showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}

@@ -1,4 +1,4 @@
-export interface BadRequestResponse<T> {
+export interface BadRequestResponse {
 	error: string;
 	message: string[];
 	statusCode: number;

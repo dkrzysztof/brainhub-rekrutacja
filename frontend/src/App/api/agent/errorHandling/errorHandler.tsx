@@ -1,32 +1,39 @@
+import React from 'react';
 import { AxiosError } from 'axios';
 import { notification } from 'antd';
+import constructDefaultBadRequestNotification from './utils/badRequestNotification';
 import axios from 'axios';
 
 export const errorHandler = async (error: AxiosError) => {
-	const { status } = error.response || { status: null, data: null };
+	return new Promise((_, reject) => {
+		const { status } = error.response || { status: null, data: null };
 
-	let tokenRefreshedSuccessfully = false;
-
-	switch (status) {
-		case 400:
-			return handleBadRequest(error);
-		case 404:
-			return handleNotFound(error);
-		case 500:
-			handleInternalServerError(error);
-			break;
-		default:
-			break;
-	}
-
-	return tokenRefreshedSuccessfully ? axios.request(error.config) : Promise.reject(error);
+		switch (status) {
+			case 400:
+				handleBadRequest(error);
+				reject(400);
+				break;
+			case 404:
+				handleNotFound(error);
+				reject(404);
+				break;
+			case 500:
+				handleInternalServerError(error);
+				reject(500);
+				break;
+			default:
+				break;
+		}
+	});
 };
 
 function handleBadRequest(error: AxiosError<any>) {
+	const data = error.response?.data;
 	switch (error.config.url) {
-		// dodać enpointy url dla których trzeba dodać obsługę
+		// dodać enpointy url, które trzeba będzie specjalnie obsłużyć
 		default:
-			return Promise.reject(error.response?.data);
+			constructDefaultBadRequestNotification(data);
+			break;
 	}
 }
 

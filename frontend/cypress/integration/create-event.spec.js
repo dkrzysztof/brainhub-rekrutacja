@@ -44,4 +44,67 @@ describe('Brainhub Recruitment task Main Form ', () => {
 
 		incorrectEmails.forEach(testEmailValue);
 	});
+
+	it('should return notifiaction upon successful creation', () => {
+		createEventPage.typeFirstname('Jan');
+		createEventPage.typeLastname('Kowalski');
+		createEventPage.typeEmail('jkowalski@email.com');
+		createEventPage.typeRandomDate();
+
+		createEventPage.interceptCreateEvent(() => {});
+		createEventPage.clickSubmit();
+
+		createEventPage.validateNotificationSuccessMessagePresence('Successfully created event!');
+		cy.wait(500);
+	});
+
+	it('should return notifiaction upon 500 error creation', () => {
+		createEventPage.typeFirstname('Jan');
+		createEventPage.typeLastname('Kowalski');
+		createEventPage.typeEmail('jkowalski@email.com');
+		createEventPage.typeRandomDate();
+
+		createEventPage.interceptCreateEventError(() => {}, { statusCode: 500 });
+		createEventPage.clickSubmit();
+
+		createEventPage.validateNotificationErrorMessagePresence('The app has encountered an error :(');
+		cy.wait(500);
+	});
+
+	it('should return notifiaction upon 404 error creation', () => {
+		createEventPage.typeFirstname('Jan');
+		createEventPage.typeLastname('Kowalski');
+		createEventPage.typeEmail('jkowalski@email.com');
+		createEventPage.typeRandomDate();
+
+		createEventPage.interceptCreateEventError(() => {}, { statusCode: 404 });
+
+		createEventPage.clickSubmit();
+
+		createEventPage.validateNotificationErrorMessagePresence("Server couldn't resolve given endpoint");
+		cy.wait(500);
+	});
+
+	it('should return notifiaction upon 400 error creation', () => {
+		createEventPage.typeFirstname('Jan');
+		createEventPage.typeLastname('Kowalski');
+		createEventPage.typeEmail('jkowalski@email.com');
+		createEventPage.typeRandomDate();
+
+		createEventPage.interceptCreateEventError(() => {}, {
+			statusCode: 400,
+			body: {
+				statusCode: 400,
+				message: ['email must be an email', 'firstname is required'],
+				error: 'Bad Request'
+			}
+		});
+
+		createEventPage.clickSubmit();
+
+		createEventPage.validateNotificationErrorMessagePresence(
+			'Your request did not pass validation. The following data needs correction:',
+			['email must be an email', 'firstname is required']
+		);
+	});
 });

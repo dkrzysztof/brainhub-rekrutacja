@@ -5,6 +5,45 @@ export class CreateEventPage {
 		cy.visit('http://localhost:3000');
 	}
 
+	// Routing
+	interceptCreateEvent(cb) {
+		cy.intercept(
+			{
+				method: 'POST',
+				url: 'api/events'
+			},
+			{ statusCode: 204 }
+		)
+			.as('createEvent')
+			.then(cb);
+	}
+
+	interceptCreateEventError(cb, errorResponse) {
+		cy.intercept(
+			{
+				method: 'POST',
+				url: 'api/events'
+			},
+			errorResponse
+		)
+			.as('error')
+			.then(cb);
+	}
+
+	// Notification
+	validateNotificationSuccessMessagePresence(message) {
+		cy.get('.ant-message-notice-content').should('contain.text', message);
+	}
+
+	validateNotificationErrorMessagePresence(message, description) {
+		cy.get('.ant-notification-notice-message').should('contain.text', message);
+		if (description) {
+			description.forEach((descriptionItem) => {
+				cy.get('.ant-notification-notice-description').should('contain.text', descriptionItem);
+			});
+		}
+	}
+
 	// Validation
 	validateValidationMessagesAbsence() {
 		cy.get('div.ant-form-item-explain-error[role=alert]').should('not.exist');
@@ -14,7 +53,7 @@ export class CreateEventPage {
 		cy.get('div.ant-form-item-explain-error[role=alert]').contains(validationMessage);
 	}
 
-	// ui methods
+	// UI methods
 	checkHeaderTextPresence() {
 		cy.get('.app-header span.brainhub-font').should('contain.text', 'Brainhub');
 	}
@@ -101,7 +140,7 @@ export class CreateEventPage {
 	}
 
 	chooseRandomDay() {
-		cy.get('td.ant-picker-cell').eq(randomFromRange(42)).click();
+		cy.get('td.ant-picker-cell.ant-picker-cell-in-view').eq(randomFromRange(28)).click();
 	}
 
 	getDatePickerColumn(i, cbWithin) {
