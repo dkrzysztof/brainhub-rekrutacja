@@ -1,19 +1,12 @@
 import React from 'react';
-import {
-  render,
-  cleanup,
-  act,
-  fireEvent,
-  screen,
-  getByText,
-  getByPlaceholderText,
-} from '@testing-library/react';
-import CreateEventForm, { CreateEventFormProps } from './CreateEventForm';
+import { render, cleanup, act, fireEvent } from '@testing-library/react';
 import * as ReactRedux from 'react-redux';
 import { Form, FormInstance } from 'antd';
 import moment from 'moment';
+
+import CreateEventForm, { CreateEventFormProps } from './CreateEventForm';
+
 import { StatusType } from 'App/utils/interfaces/StatusTypes';
-import { format } from 'path';
 
 beforeAll(() => cleanup());
 
@@ -76,8 +69,7 @@ const setup = (wrapperProps: Omit<CreateEventFormProps, 'form'>) => {
   const buttonSubmit = utils.getByText('Create');
 
   return {
-    // użycie przed inicjalizacją
-    //@ts-expect-error
+    //@ts-expect-error used before initialization
     form,
     Wrapper,
     inputFirstname,
@@ -127,7 +119,6 @@ describe('CreateEventForm', () => {
       inputFirstname,
       inputLastname,
       buttonSubmit,
-      baseElement,
     } = setup({
       onFinish: handleFinish,
     });

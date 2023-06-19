@@ -1,4 +1,5 @@
 import { combineReducers } from '@reduxjs/toolkit';
+
 import eventsSlice from './events/events.slice';
 
 const rootReducer = combineReducers({

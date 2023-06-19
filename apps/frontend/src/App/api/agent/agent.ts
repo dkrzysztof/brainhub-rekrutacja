@@ -1,6 +1,8 @@
 import axios, { AxiosResponse, AxiosRequestConfig } from 'axios';
-import { baseURL } from './axios/configuration';
+
 import EventsApi from '../endpoints/events';
+
+import { baseURL } from './axios/configuration';
 
 axios.defaults.baseURL = baseURL;
 

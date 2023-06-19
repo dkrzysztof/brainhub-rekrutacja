@@ -1,10 +1,11 @@
 import React from 'react';
 import { Button, DatePicker, Form, FormInstance, Input } from 'antd';
+import moment from 'moment';
+
 import {
   rulesForEditProfileForm,
   rulesMessages,
 } from './CreateEventForm.rules';
-import moment from 'moment';
 
 const {
   firstnameFieldRules,

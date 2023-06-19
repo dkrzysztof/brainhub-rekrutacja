@@ -1,6 +1,7 @@
 import React from 'react';
 import { cleanup, render, screen } from '@testing-library/react';
 import * as ReactRedux from 'react-redux';
+
 import App from './App';
 import { StatusType } from './utils/interfaces/StatusTypes';
 

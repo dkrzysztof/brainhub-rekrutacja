@@ -1,6 +1,7 @@
-import agent from 'App/api/agent/agent';
 import { CreateEventRequest } from 'App/api/endpoints/events/requests/CreateEventRequest';
+
 import { AppThunk } from '../store';
+
 import {
   getAllEventsStart,
   getAllEventsSuccess,
@@ -9,6 +10,8 @@ import {
   createEventStart,
   createEventSuccess,
 } from './events.slice';
+
+import agent from 'App/api/agent/agent';
 
 export const getAllEvents = (): AppThunk => (dispatch) => {
   dispatch(getAllEventsStart());

@@ -1,7 +1,8 @@
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
-import App from './App/App';
 import { Provider } from 'react-redux';
+
+import App from './App/App';
 import store from './App/state/store';
 import SuspenseLoader from './App/components';
 

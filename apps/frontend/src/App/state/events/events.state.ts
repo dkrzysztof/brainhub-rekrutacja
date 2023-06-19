@@ -1,4 +1,5 @@
 import { GetEventsResponse } from 'App/api/endpoints/events/responses';
+
 import { StatusType } from 'App/utils/interfaces/StatusTypes';
 
 export interface EventsState {

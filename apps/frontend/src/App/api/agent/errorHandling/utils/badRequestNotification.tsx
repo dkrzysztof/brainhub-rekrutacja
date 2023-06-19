@@ -1,5 +1,6 @@
 import React from 'react';
 import { notification } from 'antd';
+
 import { BadRequestResponse } from '../interfaces/BadRequestResponse';
 
 const constructDefaultBadRequestNotification = (data: BadRequestResponse) => {

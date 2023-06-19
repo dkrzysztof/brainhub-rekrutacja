@@ -1,10 +1,12 @@
 import React from 'react';
 import { Form } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { createEvent } from 'App/state/events/events.thunk';
+
 import CreateEventForm, {
   CreateEventFormFields,
 } from '../CreateEventForm/CreateEventForm';
+
+import { createEvent } from 'App/state/events/events.thunk';
 import { RootState } from 'App/state/root.reducer';
 import { isStatusLoading } from 'App/utils/checkStatusType';
 

@@ -17,11 +17,14 @@ module.exports = {
     react: {
       version: 'detect',
     },
+    typescript: true,
     'import/resolver': {
       node: {
         paths: ['src'],
-        extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
     },
+  },
+  rules: {
+    'import/no-unresolved': 'off',
   },
 };

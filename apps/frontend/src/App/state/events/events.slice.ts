@@ -1,11 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { GetEventsResponse } from 'App/api/endpoints/events/responses';
-import { StatusType } from 'App/utils/interfaces/StatusTypes';
+
 import {
   sendErrorNotification,
   sendSuccessNotification,
 } from '../utils/response';
+
 import { EventsState, initialEventsState } from './events.state';
+
+import { StatusType } from 'App/utils/interfaces/StatusTypes';
 
 const eventsSlice = createSlice({
   name: 'events',

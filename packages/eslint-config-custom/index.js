@@ -4,8 +4,9 @@ module.exports = {
 		'prettier',
 		'eslint:recommended',
 		'eslint-config-prettier',
-		'plugin:@typescript-eslint/recommended',
 		'plugin:import/recommended',
+		'plugin:import/typescript',
+		'plugin:@typescript-eslint/recommended',
 		'plugin:prettier/recommended'
 	],
 	parser: '@typescript-eslint/parser',
@@ -13,5 +14,13 @@ module.exports = {
 		ecmaFeatures: 'jsx',
 		ecmaVersion: 'latest',
 		sourceType: 'module'
+	},
+	rules: {
+		'import/order': [
+			'error',
+			{
+				'newlines-between': 'always'
+			}
+		]
 	}
 };
