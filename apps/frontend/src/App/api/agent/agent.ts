@@ -24,13 +24,13 @@ export const defaultHeaders = {
 };
 
 export const requests = {
-  get: (url: string, params?: {}) =>
+  get: (url: string, params?: AxiosRequestConfig['params']) =>
     axios
       .get(url, {
         params,
       })
       .then(responseBodyAxios),
-  post: (url: string, body: {}, config?: AxiosRequestConfig | undefined) =>
+  post: (url: string, body: any, config?: AxiosRequestConfig | undefined) =>
     axios.post(url, body, config).then(responseBodyAxios),
 };
 

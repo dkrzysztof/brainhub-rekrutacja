@@ -1,6 +1,11 @@
 module.exports = {
   root: true,
-  extends: ['custom', 'plugin:react/recommended'],
+  extends: [
+    'custom',
+    'plugin:react/recommended',
+    'plugin:react-redux/recommended',
+    'plugin:react-hooks/recommended',
+  ],
   env: {
     browser: true,
     es2021: true,
@@ -16,12 +21,6 @@ module.exports = {
   settings: {
     react: {
       version: 'detect',
-    },
-    typescript: true,
-    'import/resolver': {
-      node: {
-        paths: ['src'],
-      },
     },
   },
   rules: {

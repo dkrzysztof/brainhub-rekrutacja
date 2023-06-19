@@ -1,5 +1,4 @@
-import React from 'react';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { notification } from 'antd';
 
 import constructDefaultBadRequestNotification from './utils/badRequestNotification';

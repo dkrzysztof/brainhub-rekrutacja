@@ -15,12 +15,22 @@ module.exports = {
 		ecmaVersion: 'latest',
 		sourceType: 'module'
 	},
+	settings: {
+		typescript: true,
+		node: true,
+		'import/resolver': {
+			node: {
+				paths: ['src']
+			}
+		}
+	},
 	rules: {
 		'import/order': [
 			'error',
 			{
 				'newlines-between': 'always'
 			}
-		]
+		],
+		'@typescript-eslint/no-explicit-any': 'off'
 	}
 };
