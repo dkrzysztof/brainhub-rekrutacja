@@ -22,6 +22,7 @@
     "start:dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "test": "echo \"Implement unit test runner\"",

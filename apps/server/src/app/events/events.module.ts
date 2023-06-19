@@ -5,8 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Event } from 'src/models/event.entity';
 
 @Module({
-	providers: [EventsService],
-	imports: [TypeOrmModule.forFeature([Event])],
-	controllers: [EventsController],
+  providers: [EventsService],
+  imports: [TypeOrmModule.forFeature([Event])],
+  controllers: [EventsController],
 })
 export class EventsModule {}

@@ -6,8 +6,8 @@ import { DatabaseModule } from '../database/database.module';
 import { EventsModule } from './events/events.module';
 
 @Module({
-	imports: [DatabaseModule, TypeOrmModule.forRoot(), EventsModule],
-	controllers: [AppController],
-	providers: [AppService],
+  imports: [DatabaseModule, TypeOrmModule.forRoot(), EventsModule],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
