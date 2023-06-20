@@ -25,6 +25,7 @@ module.exports = {
 		}
 	},
 	rules: {
+		'import/no-unresolved': 'off',
 		'import/order': [
 			'error',
 			{

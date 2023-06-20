@@ -1,9 +1,10 @@
 import { Test } from '@nestjs/testing';
-import { EventsService } from './events.service';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
 import { Event } from 'src/models/event.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
+
+import { EventsService } from './events.service';
 import { EventsController } from './events.controller';
 import { CreateEventDto } from './dto/create-event.dto';
 

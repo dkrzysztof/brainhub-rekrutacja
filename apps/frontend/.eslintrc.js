@@ -1,16 +1,16 @@
 module.exports = {
   root: true,
+  env: {
+    browser: true,
+    es2021: true,
+    jest: true,
+  },
   extends: [
     'custom',
     'plugin:react/recommended',
     'plugin:react-redux/recommended',
     'plugin:react-hooks/recommended',
   ],
-  env: {
-    browser: true,
-    es2021: true,
-    jest: true,
-  },
   parserOptions: {
     ecmaFeatures: 'jsx',
     ecmaVersion: 'latest',
@@ -22,8 +22,5 @@ module.exports = {
     react: {
       version: 'detect',
     },
-  },
-  rules: {
-    'import/no-unresolved': 'off',
   },
 };

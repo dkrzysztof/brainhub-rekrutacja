@@ -7,6 +7,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
+
 import { CreateEventDto } from './dto/create-event.dto';
 import { GetEventForGetEventsDto } from './dto/get-event-for-get-events.dto';
 import { EventsService } from './events.service';
