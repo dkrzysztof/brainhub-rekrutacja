@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
-import { Event } from 'src/models/event.entity';
+import { Event } from 'src/database/models/event.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
 import { EventsService } from './events.service';

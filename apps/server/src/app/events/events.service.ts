@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToInstance } from 'class-transformer';
-import { Event } from 'src/models/event.entity';
+import { Event } from 'src/database/models/event.entity';
 import { Repository } from 'typeorm';
 
 import { CreateEventDto } from './dto/create-event.dto';

@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Event } from 'src/models/event.entity';
+import { Event } from 'src/database/models/event.entity';
 import { plainToInstance } from 'class-transformer';
 import { Repository } from 'typeorm';
 

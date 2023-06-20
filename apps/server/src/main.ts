@@ -2,14 +2,15 @@ import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { NestFactory, Reflector } from '@nestjs/core';
 
 import { AppModule } from './app/app.module';
-
-const PORT = process.env.PORT || 5000;
+import { ConfigService } from '@nestjs/config';
+import { ConfigKeys } from './config/configuration';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const config = app.get<ConfigService<ConfigKeys>>(ConfigService);
 
   app.enableCors({
-    origin: ['http://localhost:3000'],
+    origin: [config.get('APP_ORIGIN')],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
   });
   app.useGlobalPipes(
@@ -22,6 +23,7 @@ async function bootstrap() {
   );
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
+  const PORT = config.get('PORT');
   await app.listen(PORT);
   console.info(
     `\x1b[33m[SERVER]:\x1b[32m`,
