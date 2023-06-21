@@ -2,8 +2,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { AppController } from 'src/app/app.controller';
-import { AppService } from 'src/app/app.service';
+import { AppController } from '../src/app/app.controller';
+import { AppService } from '../src/app/app.service';
+import { Event } from '../src/database/models/event.entity';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
@@ -29,6 +30,6 @@ describe('AppController (e2e)', () => {
       .get('/')
       .expect(200)
       .expect('Content-Type', /text/)
-      .expect('Hello Brainhub!');
+      .expect('Hello!');
   });
 });

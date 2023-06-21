@@ -9,5 +9,8 @@ export default defineConfig(() => {
       outDir: 'build',
     },
     plugins: [react(), viteTsconfigPaths(), eslint()],
+    server: {
+      port: 3000,
+    },
   };
 });

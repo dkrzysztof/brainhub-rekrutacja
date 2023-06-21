@@ -13,7 +13,7 @@ export class EventsService {
     private readonly eventsRepository: Repository<Event>,
   ) {}
 
-  async getAllEvents(): Promise<Event[]> {
+  async getAll(): Promise<Event[]> {
     const events = await this.eventsRepository.find();
     return events;
   }

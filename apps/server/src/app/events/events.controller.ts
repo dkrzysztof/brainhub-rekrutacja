@@ -9,17 +9,17 @@ import {
 import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
 
 import { CreateEventDto } from './dto/create-event.dto';
-import { GetEventForGetEventsDto } from './dto/get-event-for-get-events.dto';
+import { EventDto } from './dto/event.dto';
 import { EventsService } from './events.service';
 
-@Controller('/api/events')
+@Controller('events')
 export class EventsController {
   constructor(private eventsService: EventsService) {}
 
   @Get()
-  @UseInterceptors(new TransformInterceptor(GetEventForGetEventsDto))
-  async getAllEvents(): Promise<GetEventForGetEventsDto[]> {
-    return await this.eventsService.getAllEvents();
+  @UseInterceptors(new TransformInterceptor(EventDto))
+  async getAllEvents(): Promise<EventDto[]> {
+    return await this.eventsService.getAll();
   }
 
   @Post()

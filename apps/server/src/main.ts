@@ -22,6 +22,7 @@ async function bootstrap() {
     }),
   );
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
+  app.setGlobalPrefix('api');
 
   const PORT = config.get('PORT');
   await app.listen(PORT);

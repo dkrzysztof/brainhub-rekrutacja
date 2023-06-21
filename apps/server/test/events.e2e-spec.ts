@@ -4,9 +4,9 @@ import * as request from 'supertest';
 import { Event } from 'src/database/models/event.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
-import { EventsService } from './events.service';
-import { EventsController } from './events.controller';
-import { CreateEventDto } from './dto/create-event.dto';
+import { EventsService } from 'src/app/events/events.service';
+import { EventsController } from 'src/app/events/events.controller';
+import { CreateEventDto } from 'src/app/events/dto/create-event.dto';
 
 const createMockedEvent = (id: number): Event => ({
   id,
@@ -25,28 +25,22 @@ const createMockedCreateEventDto = (): CreateEventDto => ({
 
 describe('EventsController', () => {
   let app: INestApplication;
-  const eventsService = {
-    getAllEvents: async () => [createMockedEvent(0)],
+  const eventsService: Record<keyof EventsService, Function> = {
+    getAll: async () => [createMockedEvent(0)],
     create: async (dto: CreateEventDto) => ({ ...dto, id: 1 }),
   };
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       providers: [
-        EventsService,
+        { provide: EventsService, useValue: eventsService },
         {
           provide: getRepositoryToken(Event),
-          useValue: {
-            find: jest.fn().mockResolvedValue(() => [createMockedEvent(0)]),
-            save: jest.fn().mockResolvedValue(createMockedEvent(0)),
-          },
+          useValue: {},
         },
       ],
       controllers: [EventsController],
-    })
-      .overrideProvider(EventsService)
-      .useValue(eventsService)
-      .compile();
+    }).compile();
 
     app = moduleRef.createNestApplication();
     app.useGlobalPipes(
@@ -60,8 +54,8 @@ describe('EventsController', () => {
     await app.init();
   });
 
-  it('/api/events (GET: should get all events)', async () => {
-    const result = await eventsService.getAllEvents();
+  it('/events (GET: should get all events)', async () => {
+    const result = await eventsService.getAll();
 
     // Zastosuj transfomacje do wyjsciowego wyniku
     const mapEndResult = (event) => ({
@@ -70,28 +64,28 @@ describe('EventsController', () => {
     });
 
     return request(app.getHttpServer())
-      .get('/api/events')
+      .get('/events')
       .expect('Content-Type', /json/)
       .expect(200)
       .expect(result.map(mapEndResult));
   });
 
-  it('/api/events (POST: should create new event succesfully)', async () => {
+  it('/events (POST: should create new event succesfully)', async () => {
     const createEventDto = createMockedCreateEventDto();
 
     return request(app.getHttpServer())
-      .post('/api/events')
+      .post('/events')
       .send(createEventDto)
       .expect(204);
   });
 
-  it('/api/events (POST: should throw Bad Request on incorrect email)', async () => {
+  it('/events (POST: should throw Bad Request on incorrect email)', async () => {
     const createEventDto = createMockedCreateEventDto();
 
     createEventDto.email = 'test';
 
     const response = await request(app.getHttpServer())
-      .post('/api/events')
+      .post('/events')
       .set('Accept', 'application/json')
       .send(createEventDto)
       .expect(400)
@@ -102,9 +96,9 @@ describe('EventsController', () => {
     expect(response.body.statusCode).toBe(400);
   });
 
-  it('/api/events (POST: should throw Bad Request on empty body)', async () => {
+  it('/events (POST: should throw Bad Request on empty body)', async () => {
     const response = await request(app.getHttpServer())
-      .post('/api/events')
+      .post('/events')
       .set('Accept', 'application/json')
       .send({})
       .expect(400)
@@ -127,7 +121,7 @@ describe('EventsController', () => {
     expect(response.body.statusCode).toBe(400);
   });
 
-  it('/api/events (POST: should throw Bad Request on wrong data types)', async () => {
+  it('/events (POST: should throw Bad Request on wrong data types)', async () => {
     const createEventDto = createMockedCreateEventDto() as any;
 
     createEventDto.firstname = 1;
@@ -135,7 +129,7 @@ describe('EventsController', () => {
     createEventDto.date = '2022.03.30T12:00:00Z';
 
     const response = await request(app.getHttpServer())
-      .post('/api/events')
+      .post('/events')
       .set('Accept', 'application/json')
       .send(createEventDto)
       .expect(400)
@@ -152,13 +146,13 @@ describe('EventsController', () => {
     expect(response.body.statusCode).toBe(400);
   });
 
-  it('/api/events (POST: should throw Bad Request on wrong date format)', async () => {
+  it('/events (POST: should throw Bad Request on wrong date format)', async () => {
     const createEventDto = createMockedCreateEventDto() as any;
 
     createEventDto.date = '30/03/2022T12:00:00Z';
 
     const response = await request(app.getHttpServer())
-      .post('/api/events')
+      .post('/events')
       .set('Accept', 'application/json')
       .send(createEventDto)
       .expect(400)
@@ -171,13 +165,13 @@ describe('EventsController', () => {
     expect(response.body.statusCode).toBe(400);
   });
 
-  it('/api/events (POST: should throw Bad Request on empty time in date)', async () => {
+  it('/events (POST: should throw Bad Request on empty time in date)', async () => {
     const createEventDto = createMockedCreateEventDto() as any;
 
     createEventDto.date = '2022-02-01';
 
     const response = await request(app.getHttpServer())
-      .post('/api/events')
+      .post('/events')
       .set('Accept', 'application/json')
       .send(createEventDto)
       .expect(400)

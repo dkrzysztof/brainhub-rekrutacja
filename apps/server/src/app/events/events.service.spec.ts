@@ -66,7 +66,7 @@ describe('EventsService', () => {
       .spyOn(eventsRepository, 'find')
       .mockResolvedValue(result);
 
-    expect(await service.getAllEvents()).toBe(result);
+    expect(await service.getAll()).toBe(result);
     expect(eventRepositorySpy).toBeCalledTimes(1);
   });
 });

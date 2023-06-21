@@ -1,6 +1,6 @@
 import { Transform } from 'class-transformer';
 
-export class GetEventForGetEventsDto {
+export class EventDto {
   firstname: string;
 
   lastname: string;
