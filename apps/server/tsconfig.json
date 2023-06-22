@@ -1,0 +1,10 @@
+{
+  "extends": "tsconfig/nestjs.json",
+  "include": ["src", "test"],
+  "exclude": ["node_modules"],
+  "compilerOptions": {
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "esModuleInterop": false
+  }
+}
